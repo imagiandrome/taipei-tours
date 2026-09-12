@@ -19,7 +19,6 @@
             padding: 0;
         }
 
-        /* 讓手機與電腦都能完美自適應滾動 */
         body {
             background-color: #e5dccb;
             background-image: url('paper-bg.png');
@@ -33,12 +32,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 2vh 3vw;
+            padding: 3vh 2vw;
         }
 
         .zine-container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -48,14 +47,13 @@
         .zine-header-top {
             width: 100%;
             text-align: center;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* 電腦版維持不換行，手機版自動縮小文字確保 Taipei 完整顯示 */
         .zine-title {
             font-family: 'Newsreader', serif;
             font-weight: 400;
-            font-size: clamp(1.4rem, 2.5vw, 2.6rem);
+            font-size: clamp(1.8rem, 2.8vw, 2.8rem);
             color: var(--retro-green);
             white-space: nowrap;
             margin-bottom: 0.5rem;
@@ -63,9 +61,9 @@
 
         .zine-services {
             font-family: 'Courier Prime', monospace;
-            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+            font-size: 0.85rem;
             color: var(--retro-green);
-            line-height: 1.5;
+            line-height: 1.6;
             letter-spacing: 0.5px;
             max-width: 800px;
             margin: 0 auto;
@@ -77,31 +75,37 @@
         .service-line {
             display: flex;
             justify-content: center;
-            gap: 1.2rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
 
-        /* 地圖框架：完美適應各種螢幕大小 */
+        /* 地圖外框：在手機上支援左右滑動，保持完美比例不被壓扁 */
+        .zine-map-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
         .zine-map-frame {
             position: relative;
             width: 100%;
-            max-width: 950px;
-            aspect-ratio: 18 / 9;
+            min-width: 750px; /* 確保手機上有足夠寬度展開地圖細節 */
+            max-width: 1050px;
+            aspect-ratio: 19 / 9;
             background-image: url('map.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             background-color: transparent;
-            margin: 0.5rem 0;
+            margin: 0 auto;
         }
 
-        /* 底部聯絡資訊：整齊舒服的排版 */
         .zine-footer-note {
             width: 100%;
             text-align: center;
-            margin-top: 1.2rem;
+            margin-top: 1.5rem;
             font-family: 'Courier Prime', monospace;
-            font-size: clamp(0.65rem, 1vw, 0.75rem);
+            font-size: 0.75rem;
             color: var(--retro-green);
             line-height: 1.6;
         }
@@ -119,7 +123,6 @@
             height: 100%;
         }
 
-        /* 地標按鈕 */
         .zine-pin {
             position: absolute;
             cursor: pointer;
@@ -145,24 +148,23 @@
 
         .zine-pin-text {
             font-family: 'Courier Prime', monospace;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: var(--retro-green);
             text-transform: uppercase;
             letter-spacing: 1px;
             background: rgba(229, 220, 203, 0.9);
-            padding: 1px 4px;
+            padding: 1px 5px;
             white-space: nowrap;
             border: 1px solid var(--retro-green);
         }
 
-        /* 可拖拽角色 Icon (支援手機觸控) */
         .draggable-avatar {
             position: absolute;
             cursor: grab;
             z-index: 30;
             text-align: center;
             user-select: none;
-            touch-action: none; /* 防止手機拖動時畫面跟著捲動 */
+            touch-action: none;
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.25));
             transition: transform 0.2s;
         }
@@ -173,7 +175,7 @@
         }
 
         .draggable-avatar img {
-            width: 65px;
+            width: 75px;
             height: auto;
             display: block;
             margin: 0 auto;
@@ -181,7 +183,7 @@
 
         .avatar-label {
             font-family: 'Courier Prime', monospace;
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             color: var(--retro-dark);
             background: rgba(229, 220, 203, 0.95);
             padding: 1px 4px;
@@ -230,45 +232,45 @@
         .content-box h2 {
             font-family: 'Special Elite', cursive;
             color: var(--retro-green);
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
         }
 
         .content-box p.subtitle {
             font-family: 'Courier Prime', monospace;
             color: #555;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
         }
 
         .zine-step {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             border-left: 1px solid var(--retro-green);
-            padding-left: 1.2rem;
+            padding-left: 1.5rem;
         }
 
         .zine-step-title {
             font-family: 'Courier Prime', monospace;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--retro-green);
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.3rem;
         }
 
         .zine-step-desc {
-            font-size: 0.95rem;
-            line-height: 1.5;
+            font-size: 1rem;
+            line-height: 1.6;
             color: #333;
         }
 
-        /* 無外框的左右雙欄自我介紹頁面 (完美適應手機 RWD) */
+        /* 自我介紹頁面：維持長方形照片、手機上下 Tab 排列 */
         .bio-container {
             display: grid;
-            grid-template-columns: 240px 1fr;
-            gap: 3rem;
+            grid-template-columns: 260px 1fr;
+            gap: 3.5rem;
             align-items: center;
             max-width: 800px;
-            margin: 6vh auto;
+            margin: 8vh auto;
             background: transparent;
             padding: 0;
             border: none;
@@ -276,7 +278,7 @@
 
         .bio-photo-box {
             width: 100%;
-            height: 260px;
+            height: 280px; /* 長方形比例 */
             background-size: cover;
             background-position: center;
             border: 2px solid var(--retro-green);
@@ -285,16 +287,16 @@
         .bio-text-box h3 {
             font-family: 'Special Elite', cursive;
             color: var(--retro-green);
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
         }
 
         .bio-text-box p {
-            font-size: 1rem;
+            font-size: 1.05rem;
             line-height: 1.7;
             color: #333;
             font-family: 'Newsreader', serif;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
         .contact-cta {
@@ -314,22 +316,23 @@
             text-decoration: underline;
         }
 
-        /* 手機 RWD 適應：螢幕比較小時，標題自動折行、個人介紹改為上下排列 */
+        /* 手機 RWD 適應：標題自動折行、自我介紹維持長方形並上下排列 */
         @media (max-width: 768px) {
             .zine-title {
                 white-space: normal;
-                font-size: 1.35rem;
+                font-size: 1.4rem;
+                line-height: 1.3;
             }
             .bio-container {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
-                margin: 2vh auto;
+                gap: 2rem;
+                margin: 4vh auto;
             }
             .bio-photo-box {
-                width: 200px;
-                height: 200px;
+                width: 240px;
+                height: 280px; /* 手機上一樣維持漂亮的長方形 */
                 margin: 0 auto;
-                border-radius: 50%; /* 手機上變成精緻的圓形頭像 */
+                border-radius: 0;
             }
         }
     </style>
@@ -354,41 +357,43 @@
             </div>
         </div>
 
-        <!-- 地圖框架 -->
-        <div class="zine-map-frame" id="mapFrame">
-            <div class="zine-map-area">
-                
-                <!-- 角色 Icon 1：Gillian -->
-                <div class="draggable-avatar" id="avatarGillian" style="top: 45%; left: 32%;" onclick="handleAvatarClick('bio1', event)" title="Click to view Gillian's Bio">
-                    <img src="gillian.png" alt="Gillian">
-                    <div class="avatar-label">Gillian</div>
-                </div>
+        <!-- 地圖框架 (支援手機左右滑動，保留完整比例) -->
+        <div class="zine-map-wrapper">
+            <div class="zine-map-frame" id="mapFrame">
+                <div class="zine-map-area">
+                    
+                    <!-- 角色 Icon 1：Gillian -->
+                    <div class="draggable-avatar" id="avatarGillian" style="top: 45%; left: 32%;" onclick="handleAvatarClick('bio1', event)" title="Click to view Gillian's Bio">
+                        <img src="gillian.png" alt="Gillian">
+                        <div class="avatar-label">Gillian</div>
+                    </div>
 
-                <!-- 角色 Icon 2：Ian -->
-                <div class="draggable-avatar" id="avatarIan" style="top: 52%; left: 42%;" onclick="handleAvatarClick('bio2', event)" title="Click to view Ian's Bio">
-                    <img src="ian.png" alt="Ian">
-                    <div class="avatar-label">Ian</div>
-                </div>
+                    <!-- 角色 Icon 2：Ian -->
+                    <div class="draggable-avatar" id="avatarIan" style="top: 52%; left: 42%;" onclick="handleAvatarClick('bio2', event)" title="Click to view Ian's Bio">
+                        <img src="ian.png" alt="Ian">
+                        <div class="avatar-label">Ian</div>
+                    </div>
 
-                <!-- 四個地圖行程按鈕 -->
-                <div class="zine-pin" style="top: 85%; left: 24%;" onclick="switchView('route1')">
-                    <div class="zine-pin-dot"></div>
-                    <div class="zine-pin-text">01. Dadaocheng</div>
-                </div>
+                    <!-- 四個地圖行程按鈕 -->
+                    <div class="zine-pin" style="top: 85%; left: 24%;" onclick="switchView('route1')">
+                        <div class="zine-pin-dot"></div>
+                        <div class="zine-pin-text">01. Dadaocheng</div>
+                    </div>
 
-                <div class="zine-pin" style="top: 78%; left: 68%;" onclick="switchView('route2')">
-                    <div class="zine-pin-dot"></div>
-                    <div class="zine-pin-text">02. Wanhua & Ximen</div>
-                </div>
+                    <div class="zine-pin" style="top: 78%; left: 68%;" onclick="switchView('route2')">
+                        <div class="zine-pin-dot"></div>
+                        <div class="zine-pin-text">02. Wanhua & Ximen</div>
+                    </div>
 
-                <div class="zine-pin" style="top: 22%; left: 85%;" onclick="switchView('route3')">
-                    <div class="zine-pin-dot"></div>
-                    <div class="zine-pin-text">03. Jiufen</div>
-                </div>
+                    <div class="zine-pin" style="top: 22%; left: 85%;" onclick="switchView('route3')">
+                        <div class="zine-pin-dot"></div>
+                        <div class="zine-pin-text">03. Jiufen</div>
+                    </div>
 
-                <div class="zine-pin" style="top: 25%; left: 18%;" onclick="switchView('route4')">
-                    <div class="zine-pin-dot"></div>
-                    <div class="zine-pin-text">04. Tamsui</div>
+                    <div class="zine-pin" style="top: 25%; left: 18%;" onclick="switchView('route4')">
+                        <div class="zine-pin-dot"></div>
+                        <div class="zine-pin-text">04. Tamsui</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -574,7 +579,6 @@
             }
         }
 
-        // 支援滑鼠與手機手指觸控的拖曳功能
         function makeDraggable(elmnt) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
