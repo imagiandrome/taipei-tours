@@ -50,11 +50,10 @@
             margin-bottom: 1rem;
         }
 
-        /* 標題設定：預設電腦版一行 */
+        /* 標題設定：電腦版一行 */
         .zine-title {
             font-family: 'Newsreader', serif;
             font-weight: 400;
-            font-size: clamp(2rem, 3.2vw, 3.2vn);
             font-size: clamp(2rem, 3.2vw, 3.2rem);
             color: var(--retro-green);
             white-space: nowrap;
@@ -63,10 +62,10 @@
         }
 
         .zine-title .br-mobile {
-            display: none; /* 電腦版不換行 */
+            display: none;
         }
 
-        /* 服務項目：電腦版嚴格控制第一行三個、第二行兩個 */
+        /* 服務項目：電腦版精準對稱 (3個 / 2個) */
         .zine-services {
             font-family: 'Courier Prime', monospace;
             font-size: 0.82rem;
@@ -110,7 +109,7 @@
             margin: 0 auto;
         }
 
-        /* 底部聯絡資訊與報名表單：精準控制三行行距 */
+        /* 底部聯絡資訊與報名表單 */
         .zine-footer-note {
             width: 100%;
             text-align: center;
@@ -356,22 +355,24 @@
             text-decoration: underline;
         }
 
-        /* 手機 RWD 設定：強制手機版標題換行、服務項目改為手機適應排版 */
+        /* 手機 RWD 設定：手機版標題換行、服務項目改為緊湊均勻行距 */
         @media (max-width: 768px) {
             .zine-title {
                 white-space: normal;
-                font-size: 1.4rem;
+                font-size: 1.35rem;
                 line-height: 1.35;
             }
             .zine-title .br-mobile {
-                display: block; /* 手機版強制在這裡斷行 */
+                display: block;
             }
             .zine-services {
                 font-size: 0.72rem;
+                line-height: 1.5; /* 讓手機上的說明文字行距變緊密、均勻 */
+                gap: 0.15rem;
             }
             .service-row {
-                gap: 1rem;
-                flex-wrap: wrap;
+                gap: 0.8rem;
+                flex-wrap: wrap; /* 手機上讓項目自然排列，不再被強制拆行拉開 */
             }
             .bio-container {
                 grid-template-columns: 1fr;
@@ -392,18 +393,15 @@
     <div id="home-view" class="zine-container">
         
         <div class="zine-header-top">
-            <!-- 標題：電腦版保持一行，手機版透過 .br-mobile 溫柔換行 -->
             <h1 class="zine-title">
                 Aesthetic & Cultural<span class="br-mobile"></span> Private Tours in Taipei.
             </h1>
             <div class="zine-services">
-                <!-- 第一行：三個 -->
                 <div class="service-row">
                     <span>✦ English Interpretation</span>
                     <span>✦ Curated Sightseeing</span>
                     <span>✦ Authentic Local Food</span>
                 </div>
-                <!-- 第二行：兩個 -->
                 <div class="service-row">
                     <span>✦ Professional Photography</span>
                     <span>✦ Your Local Best Friend</span>
@@ -452,7 +450,7 @@
             </div>
         </div>
 
-        <!-- 底部聯絡方式與報名表單：精準三行排列 -->
+        <!-- 底部聯絡方式與報名表單 -->
         <div class="zine-footer-note">
             <div class="intro-line">[ Drag Gillian & Ian around, or click landmarks to explore tours ]</div>
             <div class="contact-line">Inquiries & Booking —</div>
