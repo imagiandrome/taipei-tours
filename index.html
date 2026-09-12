@@ -47,13 +47,14 @@
         .zine-header-top {
             width: 100%;
             text-align: center;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
-        /* 預設電腦版標題維持一行 */
+        /* 標題設定：預設電腦版一行 */
         .zine-title {
             font-family: 'Newsreader', serif;
             font-weight: 400;
+            font-size: clamp(2rem, 3.2vw, 3.2vn);
             font-size: clamp(2rem, 3.2vw, 3.2rem);
             color: var(--retro-green);
             white-space: nowrap;
@@ -61,14 +62,18 @@
             text-align: center;
         }
 
-        /* 服務項目：整齊對稱的排版 */
+        .zine-title .br-mobile {
+            display: none; /* 電腦版不換行 */
+        }
+
+        /* 服務項目：電腦版嚴格控制第一行三個、第二行兩個 */
         .zine-services {
             font-family: 'Courier Prime', monospace;
             font-size: 0.82rem;
             color: var(--retro-green);
             line-height: 1.8;
             letter-spacing: 0.5px;
-            max-width: 750px;
+            max-width: 850px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -81,7 +86,7 @@
             display: flex;
             justify-content: center;
             gap: 2rem;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
 
         /* 手機滑動地圖容器 */
@@ -105,20 +110,25 @@
             margin: 0 auto;
         }
 
-        /* 底部聯絡資訊與報名表單：三行整齊排列 */
+        /* 底部聯絡資訊與報名表單：精準控制三行行距 */
         .zine-footer-note {
             width: 100%;
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 0.8rem;
             font-family: 'Courier Prime', monospace;
             font-size: 0.75rem;
             color: var(--retro-green);
-            line-height: 1.8;
+            line-height: 1.6;
+        }
+
+        .zine-footer-note .intro-line {
+            margin-bottom: 0.2rem;
         }
 
         .zine-footer-note .contact-line {
             display: block;
-            margin-top: 0.2rem;
+            margin-top: 0.15rem;
+            margin-bottom: 0.15rem;
         }
 
         .zine-footer-note a {
@@ -129,7 +139,7 @@
         /* 報名表單按鈕風格 */
         .booking-btn {
             display: inline-block;
-            margin-top: 0.8rem;
+            margin-top: 0.6rem;
             padding: 4px 14px;
             background: rgba(45, 74, 62, 0.1);
             border: 1px dashed var(--retro-green);
@@ -346,18 +356,22 @@
             text-decoration: underline;
         }
 
-        /* 手機 RWD 設定：手機版標題自動換行，電腦版維持一行 */
+        /* 手機 RWD 設定：強制手機版標題換行、服務項目改為手機適應排版 */
         @media (max-width: 768px) {
             .zine-title {
                 white-space: normal;
-                font-size: 1.45rem;
+                font-size: 1.4rem;
                 line-height: 1.35;
             }
+            .zine-title .br-mobile {
+                display: block; /* 手機版強制在這裡斷行 */
+            }
             .zine-services {
-                font-size: 0.75rem;
+                font-size: 0.72rem;
             }
             .service-row {
                 gap: 1rem;
+                flex-wrap: wrap;
             }
             .bio-container {
                 grid-template-columns: 1fr;
@@ -378,20 +392,20 @@
     <div id="home-view" class="zine-container">
         
         <div class="zine-header-top">
-            <!-- 電腦版維持一行，手機版自動換行的標題結構 -->
+            <!-- 標題：電腦版保持一行，手機版透過 .br-mobile 溫柔換行 -->
             <h1 class="zine-title">
-                Aesthetic & Cultural<span class="desktop-space"> </span>Private Tours in Taipei.
+                Aesthetic & Cultural<span class="br-mobile"></span> Private Tours in Taipei.
             </h1>
             <div class="zine-services">
+                <!-- 第一行：三個 -->
                 <div class="service-row">
                     <span>✦ English Interpretation</span>
                     <span>✦ Curated Sightseeing</span>
-                </div>
-                <div class="service-row">
                     <span>✦ Authentic Local Food</span>
-                    <span>✦ Professional Photography</span>
                 </div>
+                <!-- 第二行：兩個 -->
                 <div class="service-row">
+                    <span>✦ Professional Photography</span>
                     <span>✦ Your Local Best Friend</span>
                 </div>
             </div>
@@ -438,9 +452,9 @@
             </div>
         </div>
 
-        <!-- 底部聯絡方式：三行整齊排列與報名按鈕 -->
+        <!-- 底部聯絡方式與報名表單：精準三行排列 -->
         <div class="zine-footer-note">
-            <div>[ Drag Gillian & Ian around, or click landmarks to explore tours ]</div>
+            <div class="intro-line">[ Drag Gillian & Ian around, or click landmarks to explore tours ]</div>
             <div class="contact-line">Inquiries & Booking —</div>
             <div class="contact-line">Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
             <div class="contact-line">IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a>, <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
