@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taipei Drift — Aesthetic Zine Tours</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --retro-green: #2d4a3e;
+            --retro-dark: #1a1a1a;
+            --paper-white: #f4efe6;
+            --accent-rust: #8c4a32;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #e5dccb;
+            background-image: url('paper-bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--retro-dark);
+            font-family: 'Newsreader', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2vh 2vw;
+        }
+
+        /* 單欄滿版小誌容器 */
+        .zine-container {
+            width: 95vw;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .zine-header-top {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        /* 強制大標題維持在同一行，不換行 */
+        .zine-title {
+            font-family: 'Newsreader', serif;
+            font-weight: 400;
+            font-size: clamp(1.5rem, 2.3vw, 2.6rem);
+            color: var(--retro-green);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 0.4rem;
+        }
+
+        .zine-services {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.8rem;
+            color: var(--retro-green);
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+            max-width: 750px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+
+        .service-line {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        /* 地圖框架 */
+        .zine-map-frame {
+            position: relative;
+            width: 100%;
+            max-width: 1050px;
+            aspect-ratio: 19 / 9;
+            background-image: url('map.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            margin: 0.5rem 0;
+        }
+
+        /* 底部聯絡資訊（移回下方，整齊分行） */
+        .zine-footer-note {
+            width: 100%;
+            text-align: center;
+            margin-top: 1rem;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.75rem;
+            color: var(--retro-green);
+            line-height: 1.6;
+        }
+
+        .zine-footer-note a {
+            color: var(--retro-green);
+            text-decoration: underline;
+        }
+
+        .zine-map-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 地標按鈕 */
+        .zine-pin {
+            position: absolute;
+            cursor: pointer;
+            text-align: center;
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s ease;
+            z-index: 20;
+        }
+
+        .zine-pin:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .zine-pin-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-rust);
+            border: 2px solid var(--paper-white);
+            border-radius: 50%;
+            margin: 0 auto 2px auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .zine-pin-text {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.7rem;
+            color: var(--retro-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(229, 220, 203, 0.9);
+            padding: 1px 5px;
+            white-space: nowrap;
+            border: 1px solid var(--retro-green);
+        }
+
+        /* 可拖拽角色 Icon */
+        .draggable-avatar {
+            position: absolute;
+            cursor: grab;
+            z-index: 30;
+            text-align: center;
+            user-select: none;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.25));
+            transition: transform 0.2s;
+        }
+
+        .draggable-avatar:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+
+        .draggable-avatar img {
+            width: 70px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .avatar-label {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.65rem;
+            color: var(--retro-dark);
+            background: rgba(229, 220, 203, 0.95);
+            padding: 1px 4px;
+            margin-top: 2px;
+            display: inline-block;
+            border: 1px solid var(--retro-green);
+        }
+
+        /* 點擊後的行程/介紹分頁 */
+        .view-section {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #e5dccb;
+            background-image: url('paper-bg.png');
+            background-size: cover;
+            background-position: center;
+            padding: 6vh 8vw;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        .back-link {
+            font-family: 'Courier Prime', monospace;
+            color: var(--retro-green);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            border-bottom: 1px dashed var(--retro-green);
+            cursor: pointer;
+        }
+
+        .content-box {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-box h2 {
+            font-family: 'Special Elite', cursive;
+            color: var(--retro-green);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-box p.subtitle {
+            font-family: 'Courier Prime', monospace;
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .zine-step {
+            margin-bottom: 2rem;
+            border-left: 1px solid var(--retro-green);
+            padding-left: 1.5rem;
+        }
+
+        .zine-step-title {
+            font-family: 'Courier Prime', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--retro-green);
+            margin-bottom: 0.3rem;
+        }
+
+        .zine-step-desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 無外框的左右雙欄自我介紹頁面 */
+        .bio-container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 3.5rem;
+            align-items: center;
+            max-width: 800px;
+            margin: 8vh auto;
+            background: transparent;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        .bio-photo-box {
+            width: 100%;
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--retro-green);
+        }
+
+        .bio-text-box h3 {
+            font-family: 'Special Elite', cursive;
+            color: var(--retro-green);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .bio-text-box p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #333;
+            font-family: 'Newsreader', serif;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-cta {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-rust);
+            margin-top: 1rem;
+            line-height: 1.8;
+        }
+
+        .contact-cta div {
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-cta a {
+            color: var(--accent-rust);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 【首頁】 -->
+    <div id="home-view" class="zine-container">
+        
+        <div class="zine-header-top">
+            <h1 class="zine-title">Aesthetic & Cultural Private Tours in Taipei.</h1>
+            <div class="zine-services">
+                <div class="service-line">
+                    <span>✦ English Interpretation</span>
+                    <span>✦ Curated Sightseeing</span>
+                    <span>✦ Authentic Local Food</span>
+                </div>
+                <div class="service-line">
+                    <span>✦ Professional Photography</span>
+                    <span>✦ Your Local Best Friend</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 地圖框架 -->
+        <div class="zine-map-frame" id="mapFrame">
+            <div class="zine-map-area">
+                
+                <!-- 角色 Icon 1：Gillian -->
+                <div class="draggable-avatar" id="avatarGillian" style="top: 45%; left: 32%;" onclick="handleAvatarClick('bio1', event)" title="Click to view Gillian's Bio">
+                    <img src="gillian.png" alt="Gillian">
+                    <div class="avatar-label">Gillian</div>
+                </div>
+
+                <!-- 角色 Icon 2：Ian -->
+                <div class="draggable-avatar" id="avatarIan" style="top: 52%; left: 42%;" onclick="handleAvatarClick('bio2', event)" title="Click to view Ian's Bio">
+                    <img src="ian.png" alt="Ian">
+                    <div class="avatar-label">Ian</div>
+                </div>
+
+                <!-- 四個地圖行程按鈕 -->
+                <div class="zine-pin" style="top: 85%; left: 24%;" onclick="switchView('route1')">
+                    <div class="zine-pin-dot"></div>
+                    <div class="zine-pin-text">01. Dadaocheng</div>
+                </div>
+
+                <div class="zine-pin" style="top: 78%; left: 68%;" onclick="switchView('route2')">
+                    <div class="zine-pin-dot"></div>
+                    <div class="zine-pin-text">02. Wanhua & Ximen</div>
+                </div>
+
+                <div class="zine-pin" style="top: 22%; left: 85%;" onclick="switchView('route3')">
+                    <div class="zine-pin-dot"></div>
+                    <div class="zine-pin-text">03. Jiufen</div>
+                </div>
+
+                <div class="zine-pin" style="top: 25%; left: 18%;" onclick="switchView('route4')">
+                    <div class="zine-pin-dot"></div>
+                    <div class="zine-pin-text">04. Tamsui</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部聯絡方式 -->
+        <div class="zine-footer-note">
+            [ Drag Gillian & Ian around, or click landmarks to explore tours ]<br>
+            Inquiries & Booking — 
+            Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a> &nbsp;|&nbsp; 
+            IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a>, <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a>
+        </div>
+    </div>
+
+    <!-- 【行程 1：大稻埕】 -->
+    <div id="route1-view" class="view-section">
+        <a class="back-link" onclick="switchView('home')">← Back to Zine Map</a>
+        <div class="content-box">
+            <h2>01. Dadaocheng Deep Dive</h2>
+            <p class="subtitle">A timeless journey through historic merchant houses, herbal lanes, and the riverside breeze.</p>
+            <div class="zine-step">
+                <div class="zine-step-title">Dihua Street Historic Architecture</div>
+                <div class="zine-step-desc">Explore century-old shophouses, traditional Chinese medicine stores, and contemporary local designer boutiques.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Local Temple & Folk Beliefs</div>
+                <div class="zine-step-desc">Visit historic temples to understand urban faith, intricate stone carvings, and traditional rituals.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Hidden Alleyway Delicacies & Tea Tasting</div>
+                <div class="zine-step-desc">Savor authentic local snacks and exquisite Taiwanese tea chosen by local connoisseurs.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Tamsui River Sunset & Cinematic Portraiture</div>
+                <div class="zine-step-desc">Stroll along the docks, catch the evening breeze, and capture timeless aesthetic moments with professional photography.</div>
+            </div>
+            <div class="contact-cta">
+                <div>✦ Ready to book? Contact us:</div>
+                <div>Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
+                <div>IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a> / <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 【行程 2：艋舺西門】 -->
+    <div id="route2-view" class="view-section">
+        <a class="back-link" onclick="switchView('home')">← Back to Zine Map</a>
+        <div class="content-box">
+            <h2>02. Wanhua & Ximen Exploration</h2>
+            <p class="subtitle">Where centuries-old spiritual devotion meets the pulsating energy of youth subcultures.</p>
+            <div class="zine-step">
+                <div class="zine-step-title">Bangka Lungshan Temple</div>
+                <div class="zine-step-desc">Immerse in architectural aesthetics, spiritual resonance, and intricate woodwork of Taipei's oldest sanctuary.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Bopiliao Historical Block</div>
+                <div class="zine-step-desc">Walk through preserved Qing-dynasty and Japanese-colonial red brick archways steeped in cinematic history.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Huaxi Street & Traditional Eateries</div>
+                <div class="zine-step-desc">Taste legendary heritage dishes and local comfort food tucked inside historical night market alleys.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Ximending Subculture Street Portrait</div>
+                <div class="zine-step-desc">Capture vibrant urban snapshots blending neon lights, street fashion, and nostalgic Taipei textures.</div>
+            </div>
+            <div class="contact-cta">
+                <div>✦ Ready to book? Contact us:</div>
+                <div>Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
+                <div>IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a> / <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 【行程 3：九份】 -->
+    <div id="route3-view" class="view-section">
+        <a class="back-link" onclick="switchView('home')">← Back to Zine Map</a>
+        <div class="content-box">
+            <h2>03. Jiufen Mountain & Mining Heritage</h2>
+            <p class="subtitle">A misty mountain hamlet hanging over the ocean, wrapped in gold-mining history and cinematic nostalgia.</p>
+            <div class="zine-step">
+                <div class="zine-step-title">Gold Ecological Museum & Shuinandong</div>
+                <div class="zine-step-desc">Uncover industrial ruins, the Yin-Yang Sea, and the melancholic beauty of Japanese-era mining remnants.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Jiufen Old Street Red Lantern Alleys</div>
+                <div class="zine-step-desc">Navigate winding stone staircases, narrow alleyways, and glowing red lanterns perched on steep mountain slopes.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Historic Teahouse & Ocean View</div>
+                <div class="zine-step-desc">Relax over high mountain tea while overlooking the vast Pacific horizon and mountain fog.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Mist & Mountain Cinematic Shoot</div>
+                <div class="zine-step-desc">Create moody, desaturated aesthetic portraits framed by dramatic coastal peaks and misty atmospheric lighting.</div>
+            </div>
+            <div class="contact-cta">
+                <div>✦ Ready to book? Contact us:</div>
+                <div>Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
+                <div>IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a> / <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 【行程 4：淡水】 -->
+    <div id="route4-view" class="view-section">
+        <a class="back-link" onclick="switchView('home')">← Back to Zine Map</a>
+        <div class="content-box">
+            <h2>04. Tamsui River & Colonial Hillside</h2>
+            <p class="subtitle">A romantic harbor town of red-brick European legacy, riverside promenades, and world-class sunsets.</p>
+            <div class="zine-step">
+                <div class="zine-step-title">Fort San Domingo & British Consular Residence</div>
+                <div class="zine-step-desc">Explore colonial-era red-brick architecture, sweeping river views, and rich maritime history.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Tamsui Old Street & Local Snack Walk</div>
+                <div class="zine-step-desc">Taste iconic harbor snacks like A-gei and fish ball soup while strolling along the historic riverfront.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Hidden Campus & Green Shade Arches</div>
+                <div class="zine-step-desc">Wander through quiet historical university grounds shaded by giant trees and colonial-era cloisters.</div>
+            </div>
+            <div class="zine-step">
+                <div class="zine-step-title">Golden Hour Riverside Portraiture</div>
+                <div class="zine-step-desc">Capture breathtaking portraits against the legendary Tamsui sunset reflecting across the sparkling estuary.</div>
+            </div>
+            <div class="contact-cta">
+                <div>✦ Ready to book? Contact us:</div>
+                <div>Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
+                <div>IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a> / <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 【個人介紹分頁 1：Gillian】 -->
+    <div id="bio1-view" class="view-section">
+        <a class="back-link" onclick="switchView('home')">← Back to Zine Map</a>
+        <div class="bio-container">
+            <div class="bio-photo-box" style="background-image: url('gillian.png');"></div>
+            <div class="bio-text-box">
+                <h3>Gillian</h3>
+                <p>Guide, planner, and companion dedicated to crafting authentic stories and making every traveler feel like a lifelong friend in Taipei.</p>
+                <div class="contact-cta">
+                    <div>✦ Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a></div>
+                    <div>✦ IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 【個人介紹分頁 2：Ian】 -->
+    <div id="bio2-view" class="view-section">
+        <a class="back-link" onclick="switchView('home')">← Back to Zine Map</a>
+        <div class="bio-container">
+            <div class="bio-photo-box" style="background-image: url('ian.png');"></div>
+            <div class="bio-text-box">
+                <h3>Ian</h3>
+                <p>Curator, spatial designer, and visual storyteller based in Taipei. Passionate about uncovering invisible architectural narratives and capturing timeless aesthetics.</p>
+                <div class="contact-cta">
+                    <div>✦ Email: <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
+                    <div>✦ IG: <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchView(viewId) {
+            const sections = document.querySelectorAll('.view-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            
+            const target = document.getElementById(viewId + '-view');
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        let isDragging = false;
+
+        function handleAvatarClick(bioId, e) {
+            if (!isDragging) {
+                switchView(bioId);
+            }
+        }
+
+        function makeDraggable(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            elmnt.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                isDragging = false;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                isDragging = true;
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                let newTop = elmnt.offsetTop - pos2;
+                let newLeft = elmnt.offsetLeft - pos1;
+
+                const frame = document.getElementById('mapFrame');
+                if (newTop < 0) newTop = 0;
+                if (newTop > frame.clientHeight - elmnt.clientHeight) newTop = frame.clientHeight - elmnt.clientHeight;
+                if (newLeft < 0) newLeft = 0;
+                if (newLeft > frame.clientWidth - elmnt.clientWidth) newLeft = frame.clientWidth - elmnt.clientWidth;
+
+                elmnt.style.top = newTop + "px";
+                elmnt.style.left = newLeft + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                setTimeout(() => { isDragging = false; }, 50);
+            }
+        }
+
+        makeDraggable(document.getElementById('avatarGillian'));
+        makeDraggable(document.getElementById('avatarIan'));
+    </script>
+</body>
+</html>
