@@ -19,6 +19,7 @@
             padding: 0;
         }
 
+        /* 讓手機與電腦都能完美自適應滾動 */
         body {
             background-color: #e5dccb;
             background-image: url('paper-bg.png');
@@ -28,51 +29,49 @@
             color: var(--retro-dark);
             font-family: 'Newsreader', serif;
             min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2vh 2vw;
-        }
-
-        /* 單欄滿版小誌容器 */
-        .zine-container {
-            width: 95vw;
-            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: space-between;
+            padding: 2vh 3vw;
+        }
+
+        .zine-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto 0;
         }
 
         .zine-header-top {
             width: 100%;
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
         }
 
-        /* 強制大標題維持在同一行，不換行 */
+        /* 電腦版維持不換行，手機版自動縮小文字確保 Taipei 完整顯示 */
         .zine-title {
             font-family: 'Newsreader', serif;
             font-weight: 400;
-            font-size: clamp(1.5rem, 2.3vw, 2.6rem);
+            font-size: clamp(1.4rem, 2.5vw, 2.6rem);
             color: var(--retro-green);
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.5rem;
         }
 
         .zine-services {
             font-family: 'Courier Prime', monospace;
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
             color: var(--retro-green);
             line-height: 1.5;
             letter-spacing: 0.5px;
-            max-width: 750px;
+            max-width: 800px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 0.1rem;
+            gap: 0.2rem;
         }
 
         .service-line {
@@ -82,29 +81,27 @@
             flex-wrap: wrap;
         }
 
-        /* 地圖框架 */
+        /* 地圖框架：完美適應各種螢幕大小 */
         .zine-map-frame {
             position: relative;
             width: 100%;
-            max-width: 1050px;
-            aspect-ratio: 19 / 9;
+            max-width: 950px;
+            aspect-ratio: 18 / 9;
             background-image: url('map.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             background-color: transparent;
-            border: none;
-            box-shadow: none;
             margin: 0.5rem 0;
         }
 
-        /* 底部聯絡資訊（移回下方，整齊分行） */
+        /* 底部聯絡資訊：整齊舒服的排版 */
         .zine-footer-note {
             width: 100%;
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
             font-family: 'Courier Prime', monospace;
-            font-size: 0.75rem;
+            font-size: clamp(0.65rem, 1vw, 0.75rem);
             color: var(--retro-green);
             line-height: 1.6;
         }
@@ -148,23 +145,24 @@
 
         .zine-pin-text {
             font-family: 'Courier Prime', monospace;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--retro-green);
             text-transform: uppercase;
             letter-spacing: 1px;
             background: rgba(229, 220, 203, 0.9);
-            padding: 1px 5px;
+            padding: 1px 4px;
             white-space: nowrap;
             border: 1px solid var(--retro-green);
         }
 
-        /* 可拖拽角色 Icon */
+        /* 可拖拽角色 Icon (支援手機觸控) */
         .draggable-avatar {
             position: absolute;
             cursor: grab;
             z-index: 30;
             text-align: center;
             user-select: none;
+            touch-action: none; /* 防止手機拖動時畫面跟著捲動 */
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.25));
             transition: transform 0.2s;
         }
@@ -175,7 +173,7 @@
         }
 
         .draggable-avatar img {
-            width: 70px;
+            width: 65px;
             height: auto;
             display: block;
             margin: 0 auto;
@@ -183,7 +181,7 @@
 
         .avatar-label {
             font-family: 'Courier Prime', monospace;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: var(--retro-dark);
             background: rgba(229, 220, 203, 0.95);
             padding: 1px 4px;
@@ -232,54 +230,53 @@
         .content-box h2 {
             font-family: 'Special Elite', cursive;
             color: var(--retro-green);
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
         }
 
         .content-box p.subtitle {
             font-family: 'Courier Prime', monospace;
             color: #555;
-            font-size: 0.95rem;
-            margin-bottom: 2.5rem;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
         }
 
         .zine-step {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             border-left: 1px solid var(--retro-green);
-            padding-left: 1.5rem;
+            padding-left: 1.2rem;
         }
 
         .zine-step-title {
             font-family: 'Courier Prime', monospace;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--retro-green);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
 
         .zine-step-desc {
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            line-height: 1.5;
             color: #333;
         }
 
-        /* 無外框的左右雙欄自我介紹頁面 */
+        /* 無外框的左右雙欄自我介紹頁面 (完美適應手機 RWD) */
         .bio-container {
             display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 3.5rem;
+            grid-template-columns: 240px 1fr;
+            gap: 3rem;
             align-items: center;
             max-width: 800px;
-            margin: 8vh auto;
+            margin: 6vh auto;
             background: transparent;
             padding: 0;
             border: none;
-            box-shadow: none;
         }
 
         .bio-photo-box {
             width: 100%;
-            height: 280px;
+            height: 260px;
             background-size: cover;
             background-position: center;
             border: 2px solid var(--retro-green);
@@ -288,16 +285,16 @@
         .bio-text-box h3 {
             font-family: 'Special Elite', cursive;
             color: var(--retro-green);
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
         }
 
         .bio-text-box p {
-            font-size: 1.05rem;
+            font-size: 1rem;
             line-height: 1.7;
             color: #333;
             font-family: 'Newsreader', serif;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .contact-cta {
@@ -315,6 +312,25 @@
         .contact-cta a {
             color: var(--accent-rust);
             text-decoration: underline;
+        }
+
+        /* 手機 RWD 適應：螢幕比較小時，標題自動折行、個人介紹改為上下排列 */
+        @media (max-width: 768px) {
+            .zine-title {
+                white-space: normal;
+                font-size: 1.35rem;
+            }
+            .bio-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin: 2vh auto;
+            }
+            .bio-photo-box {
+                width: 200px;
+                height: 200px;
+                margin: 0 auto;
+                border-radius: 50%; /* 手機上變成精緻的圓形頭像 */
+            }
         }
     </style>
 </head>
@@ -558,9 +574,12 @@
             }
         }
 
+        // 支援滑鼠與手機手指觸控的拖曳功能
         function makeDraggable(elmnt) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
             elmnt.onmousedown = dragMouseDown;
+            elmnt.ontouchstart = touchStart;
 
             function dragMouseDown(e) {
                 e = e || window.event;
@@ -572,6 +591,14 @@
                 document.onmousemove = elementDrag;
             }
 
+            function touchStart(e) {
+                isDragging = false;
+                pos3 = e.touches[0].clientX;
+                pos4 = e.touches[0].clientY;
+                document.ontouchend = closeDragElement;
+                document.ontouchmove = elementTouchDrag;
+            }
+
             function elementDrag(e) {
                 e = e || window.event;
                 e.preventDefault();
@@ -581,8 +608,22 @@
                 pos3 = e.clientX;
                 pos4 = e.clientY;
 
-                let newTop = elmnt.offsetTop - pos2;
-                let newLeft = elmnt.offsetLeft - pos1;
+                moveElement(pos1, pos2);
+            }
+
+            function elementTouchDrag(e) {
+                isDragging = true;
+                pos1 = pos3 - e.touches[0].clientX;
+                pos2 = pos4 - e.touches[0].clientY;
+                pos3 = e.touches[0].clientX;
+                pos4 = e.touches[0].clientY;
+
+                moveElement(pos1, pos2);
+            }
+
+            function moveElement(p1, p2) {
+                let newTop = elmnt.offsetTop - p2;
+                let newLeft = elmnt.offsetLeft - p1;
 
                 const frame = document.getElementById('mapFrame');
                 if (newTop < 0) newTop = 0;
@@ -597,6 +638,8 @@
             function closeDragElement() {
                 document.onmouseup = null;
                 document.onmousemove = null;
+                document.ontouchend = null;
+                document.ontouchmove = null;
                 setTimeout(() => { isDragging = false; }, 50);
             }
         }
