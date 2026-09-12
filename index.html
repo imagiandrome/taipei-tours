@@ -32,7 +32,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 3vh 2vw;
+            padding: 3vh 3vw;
         }
 
         .zine-container {
@@ -47,50 +47,45 @@
         .zine-header-top {
             width: 100%;
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .zine-title {
             font-family: 'Newsreader', serif;
             font-weight: 400;
-            font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+            font-size: clamp(1.5rem, 2.6vw, 2.8rem);
             color: var(--retro-green);
-            white-space: nowrap;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
+            line-height: 1.2;
         }
 
         .zine-services {
             font-family: 'Courier Prime', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--retro-green);
             line-height: 1.6;
             letter-spacing: 0.5px;
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
-        }
-
-        .service-line {
-            display: flex;
             justify-content: center;
-            gap: 1.5rem;
             flex-wrap: wrap;
+            gap: 0.4rem 1.5rem;
+            text-align: center;
         }
 
-        /* 地圖外框：在手機上支援左右滑動，保持完美比例不被壓扁 */
-        .zine-map-wrapper {
+        /* 手機滑動地圖容器：完美容納同一張橫式地圖，手機上可輕鬆左右滑動探索 */
+        .zine-map-scroll-container {
             width: 100%;
             overflow-x: auto;
-            padding: 1rem 0;
+            -webkit-overflow-scrolling: touch;
+            margin: 0.8rem 0;
+            padding-bottom: 10px; /* 留給捲軸空間 */
         }
 
         .zine-map-frame {
             position: relative;
-            width: 100%;
-            min-width: 750px; /* 確保手機上有足夠寬度展開地圖細節 */
-            max-width: 1050px;
+            width: 1050px; /* 固定寬度確保橫式地圖細節完美展開 */
             aspect-ratio: 19 / 9;
             background-image: url('map.png');
             background-size: contain;
@@ -100,14 +95,20 @@
             margin: 0 auto;
         }
 
+        /* 底部聯絡資訊：整齊獨立分行 */
         .zine-footer-note {
             width: 100%;
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             font-family: 'Courier Prime', monospace;
             font-size: 0.75rem;
             color: var(--retro-green);
-            line-height: 1.6;
+            line-height: 1.8;
+        }
+
+        .zine-footer-note .contact-line {
+            display: block;
+            margin-top: 0.2rem;
         }
 
         .zine-footer-note a {
@@ -175,7 +176,7 @@
         }
 
         .draggable-avatar img {
-            width: 75px;
+            width: 70px;
             height: auto;
             display: block;
             margin: 0 auto;
@@ -263,7 +264,7 @@
             color: #333;
         }
 
-        /* 自我介紹頁面：維持長方形照片、手機上下 Tab 排列 */
+        /* 自我介紹頁面：長方形照片 */
         .bio-container {
             display: grid;
             grid-template-columns: 260px 1fr;
@@ -278,7 +279,7 @@
 
         .bio-photo-box {
             width: 100%;
-            height: 280px; /* 長方形比例 */
+            height: 280px;
             background-size: cover;
             background-position: center;
             border: 2px solid var(--retro-green);
@@ -308,7 +309,7 @@
         }
 
         .contact-cta div {
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.3rem;
         }
 
         .contact-cta a {
@@ -316,12 +317,15 @@
             text-decoration: underline;
         }
 
-        /* 手機 RWD 適應：標題自動折行、自我介紹維持長方形並上下排列 */
+        /* 手機 RWD 設定 */
         @media (max-width: 768px) {
             .zine-title {
+                font-size: 1.35rem;
                 white-space: normal;
-                font-size: 1.4rem;
-                line-height: 1.3;
+            }
+            .zine-services {
+                font-size: 0.75rem;
+                gap: 0.3rem 1rem;
             }
             .bio-container {
                 grid-template-columns: 1fr;
@@ -330,9 +334,8 @@
             }
             .bio-photo-box {
                 width: 240px;
-                height: 280px; /* 手機上一樣維持漂亮的長方形 */
+                height: 280px;
                 margin: 0 auto;
-                border-radius: 0;
             }
         }
     </style>
@@ -345,20 +348,16 @@
         <div class="zine-header-top">
             <h1 class="zine-title">Aesthetic & Cultural Private Tours in Taipei.</h1>
             <div class="zine-services">
-                <div class="service-line">
-                    <span>✦ English Interpretation</span>
-                    <span>✦ Curated Sightseeing</span>
-                    <span>✦ Authentic Local Food</span>
-                </div>
-                <div class="service-line">
-                    <span>✦ Professional Photography</span>
-                    <span>✦ Your Local Best Friend</span>
-                </div>
+                <span>✦ English Interpretation</span>
+                <span>✦ Curated Sightseeing</span>
+                <span>✦ Authentic Local Food</span>
+                <span>✦ Professional Photography</span>
+                <span>✦ Your Local Best Friend</span>
             </div>
         </div>
 
-        <!-- 地圖框架 (支援手機左右滑動，保留完整比例) -->
-        <div class="zine-map-wrapper">
+        <!-- 橫式地圖加入手機左右滑動容器 -->
+        <div class="zine-map-scroll-container">
             <div class="zine-map-frame" id="mapFrame">
                 <div class="zine-map-area">
                     
@@ -398,12 +397,11 @@
             </div>
         </div>
 
-        <!-- 底部聯絡方式 -->
+        <!-- 底部聯絡方式：獨立分行 -->
         <div class="zine-footer-note">
-            [ Drag Gillian & Ian around, or click landmarks to explore tours ]<br>
-            Inquiries & Booking — 
-            Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a> &nbsp;|&nbsp; 
-            IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a>, <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a>
+            <div>[ Drag Gillian & Ian around, or click landmarks to explore tours ]</div>
+            <div class="contact-line">Inquiries & Booking — Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
+            <div class="contact-line">IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a>, <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
         </div>
     </div>
 
@@ -611,7 +609,6 @@
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
                 pos4 = e.clientY;
-
                 moveElement(pos1, pos2);
             }
 
@@ -621,7 +618,6 @@
                 pos2 = pos4 - e.touches[0].clientY;
                 pos3 = e.touches[0].clientX;
                 pos4 = e.touches[0].clientY;
-
                 moveElement(pos1, pos2);
             }
 
