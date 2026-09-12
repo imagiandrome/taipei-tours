@@ -65,19 +65,18 @@
             display: none;
         }
 
-        /* 服務項目：電腦版精準對稱 (3個 / 2個) */
+        /* 服務項目：電腦版精緻兩行 (3個 / 2個) */
         .zine-services {
             font-family: 'Courier Prime', monospace;
             font-size: 0.82rem;
             color: var(--retro-green);
-            line-height: 1.8;
             letter-spacing: 0.5px;
             max-width: 850px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.2rem;
+            gap: 0.4rem;
             text-align: center;
         }
 
@@ -355,7 +354,7 @@
             text-decoration: underline;
         }
 
-        /* 手機 RWD 設定：手機版標題換行、服務項目改為緊湊均勻行距 */
+        /* 手機 RWD 專屬優化：解決行距過寬與換行問題 */
         @media (max-width: 768px) {
             .zine-title {
                 white-space: normal;
@@ -365,14 +364,13 @@
             .zine-title .br-mobile {
                 display: block;
             }
+            /* 手機上改用緊密、置中的單行清單排列，行距完美舒適 */
             .zine-services {
                 font-size: 0.72rem;
-                line-height: 1.5; /* 讓手機上的說明文字行距變緊密、均勻 */
-                gap: 0.15rem;
+                gap: 0.25rem;
             }
             .service-row {
-                gap: 0.8rem;
-                flex-wrap: wrap; /* 手機上讓項目自然排列，不再被強制拆行拉開 */
+                display: contents; /* 讓 5 個項目在手機上依序往下排，間距緊密一致 */
             }
             .bio-container {
                 grid-template-columns: 1fr;
@@ -450,7 +448,7 @@
             </div>
         </div>
 
-        <!-- 底部聯絡方式與報名表單 -->
+        <!-- 底部聯絡方式與報金表單 -->
         <div class="zine-footer-note">
             <div class="intro-line">[ Drag Gillian & Ian around, or click landmarks to explore tours ]</div>
             <div class="contact-line">Inquiries & Booking —</div>
