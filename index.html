@@ -50,42 +50,52 @@
             margin-bottom: 1.2rem;
         }
 
+        /* 預設電腦版標題維持一行 */
         .zine-title {
             font-family: 'Newsreader', serif;
             font-weight: 400;
-            font-size: clamp(1.5rem, 2.6vw, 2.8rem);
+            font-size: clamp(2rem, 3.2vw, 3.2rem);
             color: var(--retro-green);
-            margin-bottom: 0.6rem;
-            line-height: 1.2;
-        }
-
-        .zine-services {
-            font-family: 'Courier Prime', monospace;
-            font-size: 0.8rem;
-            color: var(--retro-green);
-            line-height: 1.6;
-            letter-spacing: 0.5px;
-            max-width: 850px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.4rem 1.5rem;
+            white-space: nowrap;
+            margin-bottom: 0.8rem;
             text-align: center;
         }
 
-        /* 手機滑動地圖容器：完美容納同一張橫式地圖，手機上可輕鬆左右滑動探索 */
+        /* 服務項目：整齊對稱的排版 */
+        .zine-services {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.82rem;
+            color: var(--retro-green);
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            max-width: 750px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            text-align: center;
+        }
+
+        .service-row {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* 手機滑動地圖容器 */
         .zine-map-scroll-container {
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             margin: 0.8rem 0;
-            padding-bottom: 10px; /* 留給捲軸空間 */
+            padding-bottom: 10px;
         }
 
         .zine-map-frame {
             position: relative;
-            width: 1050px; /* 固定寬度確保橫式地圖細節完美展開 */
+            width: 1050px;
             aspect-ratio: 19 / 9;
             background-image: url('map.png');
             background-size: contain;
@@ -95,7 +105,7 @@
             margin: 0 auto;
         }
 
-        /* 底部聯絡資訊：整齊獨立分行 */
+        /* 底部聯絡資訊與報名表單：三行整齊排列 */
         .zine-footer-note {
             width: 100%;
             text-align: center;
@@ -114,6 +124,25 @@
         .zine-footer-note a {
             color: var(--retro-green);
             text-decoration: underline;
+        }
+
+        /* 報名表單按鈕風格 */
+        .booking-btn {
+            display: inline-block;
+            margin-top: 0.8rem;
+            padding: 4px 14px;
+            background: rgba(45, 74, 62, 0.1);
+            border: 1px dashed var(--retro-green);
+            color: var(--retro-green);
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .booking-btn:hover {
+            background: var(--retro-green);
+            color: var(--paper-white);
         }
 
         .zine-map-area {
@@ -317,15 +346,18 @@
             text-decoration: underline;
         }
 
-        /* 手機 RWD 設定 */
+        /* 手機 RWD 設定：手機版標題自動換行，電腦版維持一行 */
         @media (max-width: 768px) {
             .zine-title {
-                font-size: 1.35rem;
                 white-space: normal;
+                font-size: 1.45rem;
+                line-height: 1.35;
             }
             .zine-services {
                 font-size: 0.75rem;
-                gap: 0.3rem 1rem;
+            }
+            .service-row {
+                gap: 1rem;
             }
             .bio-container {
                 grid-template-columns: 1fr;
@@ -346,17 +378,26 @@
     <div id="home-view" class="zine-container">
         
         <div class="zine-header-top">
-            <h1 class="zine-title">Aesthetic & Cultural Private Tours in Taipei.</h1>
+            <!-- 電腦版維持一行，手機版自動換行的標題結構 -->
+            <h1 class="zine-title">
+                Aesthetic & Cultural<span class="desktop-space"> </span>Private Tours in Taipei.
+            </h1>
             <div class="zine-services">
-                <span>✦ English Interpretation</span>
-                <span>✦ Curated Sightseeing</span>
-                <span>✦ Authentic Local Food</span>
-                <span>✦ Professional Photography</span>
-                <span>✦ Your Local Best Friend</span>
+                <div class="service-row">
+                    <span>✦ English Interpretation</span>
+                    <span>✦ Curated Sightseeing</span>
+                </div>
+                <div class="service-row">
+                    <span>✦ Authentic Local Food</span>
+                    <span>✦ Professional Photography</span>
+                </div>
+                <div class="service-row">
+                    <span>✦ Your Local Best Friend</span>
+                </div>
             </div>
         </div>
 
-        <!-- 橫式地圖加入手機左右滑動容器 -->
+        <!-- 橫式地圖滑動容器 -->
         <div class="zine-map-scroll-container">
             <div class="zine-map-frame" id="mapFrame">
                 <div class="zine-map-area">
@@ -397,11 +438,15 @@
             </div>
         </div>
 
-        <!-- 底部聯絡方式：獨立分行 -->
+        <!-- 底部聯絡方式：三行整齊排列與報名按鈕 -->
         <div class="zine-footer-note">
             <div>[ Drag Gillian & Ian around, or click landmarks to explore tours ]</div>
-            <div class="contact-line">Inquiries & Booking — Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
+            <div class="contact-line">Inquiries & Booking —</div>
+            <div class="contact-line">Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
             <div class="contact-line">IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a>, <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+            <div>
+                <a href="https://forms.gle/6xrQNsUERiP2MKpw5" target="_blank" class="booking-btn">✦ BOOKING & TOUR REQUEST FORM ✦</a>
+            </div>
         </div>
     </div>
 
@@ -428,9 +473,7 @@
                 <div class="zine-step-desc">Stroll along the docks, catch the evening breeze, and capture timeless aesthetic moments with professional photography.</div>
             </div>
             <div class="contact-cta">
-                <div>✦ Ready to book? Contact us:</div>
-                <div>Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
-                <div>IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a> / <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+                <div>✦ Ready to book? Fill out our <a href="https://forms.gle/6xrQNsUERiP2MKpw5" target="_blank">Booking Form</a> or contact us via Email / IG.</div>
             </div>
         </div>
     </div>
@@ -458,9 +501,7 @@
                 <div class="zine-step-desc">Capture vibrant urban snapshots blending neon lights, street fashion, and nostalgic Taipei textures.</div>
             </div>
             <div class="contact-cta">
-                <div>✦ Ready to book? Contact us:</div>
-                <div>Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
-                <div>IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a> / <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+                <div>✦ Ready to book? Fill out our <a href="https://forms.gle/6xrQNsUERiP2MKpw5" target="_blank">Booking Form</a> or contact us via Email / IG.</div>
             </div>
         </div>
     </div>
@@ -488,9 +529,7 @@
                 <div class="zine-step-desc">Create moody, desaturated aesthetic portraits framed by dramatic coastal peaks and misty atmospheric lighting.</div>
             </div>
             <div class="contact-cta">
-                <div>✦ Ready to book? Contact us:</div>
-                <div>Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
-                <div>IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a> / <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+                <div>✦ Ready to book? Fill out our <a href="https://forms.gle/6xrQNsUERiP2MKpw5" target="_blank">Booking Form</a> or contact us via Email / IG.</div>
             </div>
         </div>
     </div>
@@ -518,9 +557,7 @@
                 <div class="zine-step-desc">Capture breathtaking portraits against the legendary Tamsui sunset reflecting across the sparkling estuary.</div>
             </div>
             <div class="contact-cta">
-                <div>✦ Ready to book? Contact us:</div>
-                <div>Email: <a href="mailto:squad0812@gmail.com">squad0812@gmail.com</a> / <a href="mailto:itisian2003@gmail.com">itisian2003@gmail.com</a></div>
-                <div>IG: <a href="https://instagram.com/ummgillian" target="_blank">@ummgillian</a> / <a href="https://instagram.com/imagiandrome" target="_blank">@imagiandrome</a></div>
+                <div>✦ Ready to book? Fill out our <a href="https://forms.gle/6xrQNsUERiP2MKpw5" target="_blank">Booking Form</a> or contact us via Email / IG.</div>
             </div>
         </div>
     </div>
